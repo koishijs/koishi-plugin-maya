@@ -247,12 +247,14 @@ export const name = 'maya'
 export const Config: Schema<Config> = Schema.object({})
 
 export function apply(ctx: Context) {
-  ctx.command('tools/maya <YYYY-MM-DD> [BC|AD]', '玛雅日历换算')
+  ctx.i18n.define('zh', require('./locales/zh'))
+
+  ctx.command('maya <YYYY-MM-DD> [BC|AD]')
     .example('maya 2012-12-21')
-    .action((_, date, hint) => {
-      if (!date) return '请输入正确的日期。'
+    .action(({ session }, date, hint) => {
+      if (!date) return session.text('.invalid-date')
       const match = date.match(/^(\d+)[-\.](\d+)[-\.](\d+)\.?$/)
-      if (!match) return '请输入正确的日期。'
+      if (!match) return session.text('.invalid-date')
       const year = parseInt(match[1]) * (hint === 'BC' ? -1 : 1)
       const month = parseInt(match[2])
       const day = parseInt(match[3])

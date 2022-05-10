@@ -1,0 +1,5 @@
+commands:
+  maya:
+    description: 玛雅日历换算
+    messages:
+      invalid-date: 请输入正确的日期。
